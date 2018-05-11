@@ -76,14 +76,14 @@ function buildTheGrid(myJson) {
     column2.innerHTML = newArr[i].primary_subject;
     column3.innerHTML = newArr[i].summary;
 
-    column4.innerHTML = newArr[i].sponsor_title + newArr[i].sponsor_name + ' of ' + newArr[i].sponsor_state + '(' + newArr[i].sponsor_party + ')';
+    column4.innerHTML = newArr[i].sponsor_title +' '+ newArr[i].sponsor_name + ' of ' + newArr[i].sponsor_state + '(' + newArr[i].sponsor_party + ')';
 
     createAHRef.setAttribute('href', newArr[i].govtrack_url);
     var AHrefText = document.createTextNode(newArr[i].govtrack_url);
 
     createAHRef.appendChild(AHrefText);
-      column5.appendChild(createAHRef); 
-    column6.innerHTML = 'Active? ' + newArr[i].active + ' Enacted? ' + newArr[i].enacted + ' Vetoed? ' + newArr[i].vetoed;
+      column5.appendChild(createAHRef);
+    column6.innerHTML =  newArr[i].active + ' / ' + newArr[i].enacted + ' / ' + newArr[i].vetoed;
 
 
     var totalCosponsor = newArr[i].cosponsors;
