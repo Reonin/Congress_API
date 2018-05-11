@@ -1,5 +1,3 @@
-
-
 retrievePrevSearches();
 
 
@@ -33,24 +31,23 @@ function fetchDataQ() {
 }
 
 function addToPreviousSearch(value) {
-var stringLength = document.getElementById("outputsearch").value.split(";").length;
-console.log(stringLength);
-//debugger;
-if (stringLength >= 6) {
-//  document.getElementById("outputsearch").value.split(";").shift();
- document.getElementById("outputsearch").value = document.getElementById("outputsearch").value.split(";").slice(1,6).join(";");
- document.getElementById("outputsearch").value+= value + ';';
- localStorage.setItem("searchItems", document.getElementById("outputsearch").value);
-}
-else{
-  document.getElementById("outputsearch").value+= value + ';';
-  localStorage.setItem("searchItems", document.getElementById("outputsearch").value);
-}
+  var stringLength = document.getElementById("outputsearch").value.split(";").length;
+  console.log(stringLength);
+  //debugger;
+  if (stringLength >= 6) {
+    //  document.getElementById("outputsearch").value.split(";").shift();
+    document.getElementById("outputsearch").value = document.getElementById("outputsearch").value.split(";").slice(1, 6).join(";");
+    document.getElementById("outputsearch").value += value + ';';
+    localStorage.setItem("searchItems", document.getElementById("outputsearch").value);
+  } else {
+    document.getElementById("outputsearch").value += value + ';';
+    localStorage.setItem("searchItems", document.getElementById("outputsearch").value);
+  }
 
 
 }
 
-function retrievePrevSearches(){
+function retrievePrevSearches() {
 
 
   document.getElementById("outputsearch").value = localStorage.searchItems;
@@ -65,22 +62,27 @@ function buildTheGrid(myJson) {
   //debugger;
 
   for (var i = 0; i < newArr.length; i++) {
-    var domAddition = document.createElement('div');
-    var column1 = document.createElement('p');
-    var column2 = document.createElement('p');
-    var column3 = document.createElement('p');
-    var column4 = document.createElement('p');
-    var column5 = document.createElement('p');
-    var column6 = document.createElement('p');
-    var column7 = document.createElement('p');
-
+    var domAddition = document.createElement('tr');
+    var column1 = document.createElement('td');
+    var column2 = document.createElement('td');
+    var column3 = document.createElement('td');
+    var column4 = document.createElement('td');
+    var column5 = document.createElement('td');
+    var column6 = document.createElement('td');
+    var column7 = document.createElement('td');
+    var createAHRef = document.createElement('a');
 
     column1.innerHTML = newArr[i].short_title;
     column2.innerHTML = newArr[i].primary_subject;
     column3.innerHTML = newArr[i].summary;
 
     column4.innerHTML = newArr[i].sponsor_title + newArr[i].sponsor_name + ' of ' + newArr[i].sponsor_state + '(' + newArr[i].sponsor_party + ')';
-    column5.innerHTML = newArr[i].govtrack_url;
+
+    createAHRef.setAttribute('href', newArr[i].govtrack_url);
+    var AHrefText = document.createTextNode(newArr[i].govtrack_url);
+
+    createAHRef.appendChild(AHrefText);
+      column5.appendChild(createAHRef); 
     column6.innerHTML = 'Active? ' + newArr[i].active + ' Enacted? ' + newArr[i].enacted + ' Vetoed? ' + newArr[i].vetoed;
 
 
@@ -127,7 +129,7 @@ function buildTheGrid(myJson) {
 
     var relevancy = totalCosponsor + biPartisanAvg + (billAction * 5);
 
-    column7.innerHTML = 'Relevancy Rating  ' + relevancy;
+    column7.innerHTML = relevancy;
 
 
     domAddition.append(column1);
@@ -147,5 +149,32 @@ function buildTheGrid(myJson) {
 
 function clearTheGrid() {
   document.getElementById("dataTable").innerHTML = "";
+  var domAddition = document.createElement('tr');
+  var column1 = document.createElement('th');
+  var column2 = document.createElement('th');
+  var column3 = document.createElement('th');
+  var column4 = document.createElement('th');
+  var column5 = document.createElement('th');
+  var column6 = document.createElement('th');
+  var column7 = document.createElement('th');
 
+
+  column1.innerHTML = 'Title';
+  column2.innerHTML = 'Primary Subject';
+  column3.innerHTML = 'Summary';
+  column4.innerHTML = 'Sponsor';
+  column5.innerHTML = 'Full Text';
+  column6.innerHTML = 'Active/Enacted/Vetoed';
+  column7.innerHTML = 'Relevancy';
+
+
+  domAddition.append(column1);
+  domAddition.append(column2);
+  domAddition.append(column3);
+  domAddition.append(column4);
+  domAddition.append(column5);
+  domAddition.append(column6);
+  domAddition.append(column7);
+
+  dataTable.appendChild(domAddition);
 }
