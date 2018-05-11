@@ -61,9 +61,50 @@ function buildTheGrid(myJson) {
     column6.innerHTML = 'Active? ' + newArr[i].active + ' Enacted? ' + newArr[i].enacted + ' Vetoed? ' + newArr[i].vetoed;
 
 
-    var totalCosponser = newArr[i].cosponsors;
-    var biPartisanAvg =  (newArr[i].cosponsors_by_party.D + newArr[i].cosponsors_by_party.R)/2 ; 
-    column7.innerHTML = 'relevancy ' ;
+    var totalCosponsor = newArr[i].cosponsors;
+    var biPartisanAvg = 0;
+
+    if (newArr[i].cosponsors_by_party.D !== undefined) {
+      biPartisanAvg+= newArr[i].cosponsors_by_party.D;
+    }
+    if (newArr[i].cosponsors_by_party.R  !== undefined) {
+      biPartisanAvg+= newArr[i].cosponsors_by_party.R;
+    }
+
+    biPartisanAvg = biPartisanAvg/2;
+
+
+
+    var billAction = 0;
+    //debugger;
+    if (newArr[i].enacted) {
+      billAction+=8;
+    }
+
+    if (newArr[i].house_passage == true) {
+      billAction+= 5;
+    }
+
+    if (newArr[i].senate_passage == true) {
+      billAction+= 5;
+    }
+
+
+    if (newArr[i].active) {
+      billAction+=2;
+    }
+
+    if (totalCosponsor == null) {
+      totalCosponsor = 0;
+    }
+
+    if (biPartisanAvg == null) {
+      biPartisanAvg = 0;
+    }
+
+    var relevancy =totalCosponsor + biPartisanAvg + (billAction * 5);
+
+    column7.innerHTML = 'Relevancy Rating  ' + relevancy ;
 
 
     domAddition.append(column1);
@@ -72,6 +113,7 @@ function buildTheGrid(myJson) {
     domAddition.append(column4);
     domAddition.append(column5);
     domAddition.append(column6);
+    domAddition.append(column7);
 
     dataTable.appendChild(domAddition);
   }
