@@ -1,24 +1,20 @@
-// fetch('https://api.propublica.org/congress/v1/?congress=115')
-//   .then(function(response) {
-//     return response.json();
-//   })
-//   .then(function(myJson) {
-//     console.log(myJson);
-//   });
 
 
-//d4N939vQCEpESX9Hl6XyVBPoQ4Mge3icKys5WanZ
-
+retrievePrevSearches();
 
 
 function fetchDataQ() {
   var searchQuery = document.getElementById("searchBar").value;
-
+  addToPreviousSearch(searchQuery)
   if (searchQuery == null || searchQuery.length <= 0) {
     searchQuery = "";
   }
 
-clearTheGrid();
+
+
+
+
+  clearTheGrid();
 
   fetch('/data?param=' + searchQuery)
     .then(function(response) {
@@ -35,6 +31,33 @@ clearTheGrid();
 
     });
 }
+
+function addToPreviousSearch(value) {
+var stringLength = document.getElementById("outputsearch").value.split(";").length;
+console.log(stringLength);
+//debugger;
+if (stringLength >= 6) {
+//  document.getElementById("outputsearch").value.split(";").shift();
+ document.getElementById("outputsearch").value = document.getElementById("outputsearch").value.split(";").slice(1,6).join(";");
+ document.getElementById("outputsearch").value+= value + ';';
+ localStorage.setItem("searchItems", document.getElementById("outputsearch").value);
+}
+else{
+  document.getElementById("outputsearch").value+= value + ';';
+  localStorage.setItem("searchItems", document.getElementById("outputsearch").value);
+}
+
+
+}
+
+function retrievePrevSearches(){
+
+
+  document.getElementById("outputsearch").value = localStorage.searchItems;
+
+
+}
+
 
 function buildTheGrid(myJson) {
   var dataTable = document.getElementById("dataTable");
@@ -65,33 +88,33 @@ function buildTheGrid(myJson) {
     var biPartisanAvg = 0;
 
     if (newArr[i].cosponsors_by_party.D !== undefined) {
-      biPartisanAvg+= newArr[i].cosponsors_by_party.D;
+      biPartisanAvg += newArr[i].cosponsors_by_party.D;
     }
-    if (newArr[i].cosponsors_by_party.R  !== undefined) {
-      biPartisanAvg+= newArr[i].cosponsors_by_party.R;
+    if (newArr[i].cosponsors_by_party.R !== undefined) {
+      biPartisanAvg += newArr[i].cosponsors_by_party.R;
     }
 
-    biPartisanAvg = biPartisanAvg/2;
+    biPartisanAvg = biPartisanAvg / 2;
 
 
 
     var billAction = 0;
     //debugger;
     if (newArr[i].enacted) {
-      billAction+=8;
+      billAction += 8;
     }
 
     if (newArr[i].house_passage == true) {
-      billAction+= 5;
+      billAction += 5;
     }
 
     if (newArr[i].senate_passage == true) {
-      billAction+= 5;
+      billAction += 5;
     }
 
 
     if (newArr[i].active) {
-      billAction+=2;
+      billAction += 2;
     }
 
     if (totalCosponsor == null) {
@@ -102,9 +125,9 @@ function buildTheGrid(myJson) {
       biPartisanAvg = 0;
     }
 
-    var relevancy =totalCosponsor + biPartisanAvg + (billAction * 5);
+    var relevancy = totalCosponsor + biPartisanAvg + (billAction * 5);
 
-    column7.innerHTML = 'Relevancy Rating  ' + relevancy ;
+    column7.innerHTML = 'Relevancy Rating  ' + relevancy;
 
 
     domAddition.append(column1);
