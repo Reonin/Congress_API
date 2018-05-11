@@ -30,6 +30,14 @@ function fetchDataQ() {
     });
 }
 
+function wipeSearchAndSearch(data) {
+  debugger;
+  document.getElementById('searchBar').value = data;
+
+  fetchDataQ();
+}
+
+
 function addToPreviousSearch(value) {
   var stringLength = document.getElementById("outputsearch").value.split(";").length;
   console.log(stringLength);
@@ -42,6 +50,25 @@ function addToPreviousSearch(value) {
   } else {
     document.getElementById("outputsearch").value += value + ';';
     localStorage.setItem("searchItems", document.getElementById("outputsearch").value);
+  }
+
+  var buttonArray = document.getElementById("outputsearch").value.split(";");
+
+  for (var i = 0; i < document.getElementById("outputsearch").value.split(";").length; i++) {
+    if (buttonArray[i].length >= 1) {
+
+
+      var x = document.createElement("INPUT");
+      x.setAttribute("type", "button");
+      x.setAttribute("value", buttonArray[i]);
+      var textToPass = buttonArray[i];
+      x.onclick = function() {
+        wipeSearchAndSearch(this.value);
+      }
+
+
+      document.getElementById("buttonPlacement").appendChild(x);
+    }
   }
 
 
@@ -76,14 +103,14 @@ function buildTheGrid(myJson) {
     column2.innerHTML = newArr[i].primary_subject;
     column3.innerHTML = newArr[i].summary;
 
-    column4.innerHTML = newArr[i].sponsor_title +' '+ newArr[i].sponsor_name + ' of ' + newArr[i].sponsor_state + '(' + newArr[i].sponsor_party + ')';
+    column4.innerHTML = newArr[i].sponsor_title + ' ' + newArr[i].sponsor_name + ' of ' + newArr[i].sponsor_state + '(' + newArr[i].sponsor_party + ')';
 
     createAHRef.setAttribute('href', newArr[i].govtrack_url);
     var AHrefText = document.createTextNode(newArr[i].govtrack_url);
 
     createAHRef.appendChild(AHrefText);
-      column5.appendChild(createAHRef);
-    column6.innerHTML =  newArr[i].active + ' / ' + newArr[i].enacted + ' / ' + newArr[i].vetoed;
+    column5.appendChild(createAHRef);
+    column6.innerHTML = newArr[i].active + ' / ' + newArr[i].enacted + ' / ' + newArr[i].vetoed;
 
 
     var totalCosponsor = newArr[i].cosponsors;
@@ -149,6 +176,9 @@ function buildTheGrid(myJson) {
 
 function clearTheGrid() {
   document.getElementById("dataTable").innerHTML = "";
+//document.getElementById("buttonPlacement").innerHTML = "";  
+
+
   var domAddition = document.createElement('tr');
   var column1 = document.createElement('th');
   var column2 = document.createElement('th');
