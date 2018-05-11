@@ -107,6 +107,7 @@ function buildTheGrid(myJson) {
     column4.innerHTML = newArr[i].sponsor_title + ' ' + newArr[i].sponsor_name + ' of ' + newArr[i].sponsor_state + '(' + newArr[i].sponsor_party + ')';
 
     createAHRef.setAttribute('href', newArr[i].govtrack_url);
+    createAHRef.setAttribute('target', '_blank');
     var AHrefText = document.createTextNode(newArr[i].govtrack_url);
 
     createAHRef.appendChild(AHrefText);

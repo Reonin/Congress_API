@@ -45,15 +45,16 @@ input{
 }
 
 input[type=button]{
-  background-color: #72c5f7; /* Green */
+  background-color: #72c5f7;
     border: none;
     color: white;
-    padding: 15px 32px;
+    padding: 15px 15px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
     margin-right: 5px;
+    border-radius: 25px;
 }
 
 h1, .allThingsSearch{
