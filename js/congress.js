@@ -3,6 +3,7 @@ retrievePrevSearches();
 
 function fetchDataQ() {
   var searchQuery = document.getElementById("searchBar").value;
+    clearTheGrid();
   addToPreviousSearch(searchQuery)
   if (searchQuery == null || searchQuery.length <= 0) {
     searchQuery = "";
@@ -12,7 +13,7 @@ function fetchDataQ() {
 
 
 
-  clearTheGrid();
+
 
   fetch('/data?param=' + searchQuery)
     .then(function(response) {
@@ -176,7 +177,7 @@ function buildTheGrid(myJson) {
 
 function clearTheGrid() {
   document.getElementById("dataTable").innerHTML = "";
-//document.getElementById("buttonPlacement").innerHTML = "";  
+  document.getElementById("buttonPlacement").innerHTML = "";
 
 
   var domAddition = document.createElement('tr');
