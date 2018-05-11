@@ -1,5 +1,5 @@
 retrievePrevSearches();
-
+addToPreviousSearch();
 
 function fetchDataQ() {
   var searchQuery = document.getElementById("searchBar").value;
