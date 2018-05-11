@@ -36,7 +36,6 @@ buttons that allow you to retrieve previus search queries
  **/
 function addToPreviousSearch(value) {
   var stringLength = document.getElementById("outputsearch").value.split(";").length;
-
   if (stringLength >= 6) {
 
     document.getElementById("outputsearch").value = document.getElementById("outputsearch").value.split(";").slice(1, 6).join(";");
